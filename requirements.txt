@@ -1,0 +1,13 @@
+Django>=5.0
+djangorestframework
+djangorestframework-simplejwt[blacklist]
+django-environ
+django-cors-headers
+strawberry-graphql
+strawberry-graphql-django
+channels
+channels-redis
+celery
+redis
+psycopg[binary]
+twilio
