@@ -14,4 +14,4 @@ twilio
 gunicorn
 uvicorn[standard]
 celery[redis]
-
+strawberry-graphql
