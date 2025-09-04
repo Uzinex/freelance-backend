@@ -7,9 +7,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(
     DEBUG=(bool, False),
-    ALLOWED_HOSTS=(list, ["*"]),
-    CORS_ALLOWED_ORIGINS=(list, []),
-    CSRF_TRUSTED_ORIGINS=(list, []),
+    ALLOWED_HOSTS = [
+    "*",
+    "freelance-backend-production.up.railway.app",
+    "freelance-frontend-production.up.railway.app",
+    ".railway.app",
+    "uzinex-freelance.com",
+]
+    CORS_ALLOWED_ORIGINS = [
+    "https://freelance-frontend-production.up.railway.app",
+    "https://uzinex-freelance.com",
+]
+    CSRF_TRUSTED_ORIGINS = [
+    "https://freelance-frontend-production.up.railway.app",
+    "https://uzinex-freelance.com",
+]
 )
 env.read_env(BASE_DIR / '.env')
 
@@ -105,11 +117,15 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATIC_URL = "/static/"
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
