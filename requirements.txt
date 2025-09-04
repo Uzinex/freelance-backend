@@ -12,3 +12,4 @@ redis
 psycopg[binary]
 twilio
 gunicorn
+uvicorn[standard]
