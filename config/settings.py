@@ -7,24 +7,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 env = environ.Env(
     DEBUG=(bool, False),
-    ALLOWED_HOSTS = [
+)
+env.read_env(BASE_DIR / '.env')
+
+ALLOWED_HOSTS = [
     "*",
     "freelance-backend-production.up.railway.app",
     "freelance-frontend-production.up.railway.app",
     ".railway.app",
     "uzinex-freelance.com",
 ]
-    CORS_ALLOWED_ORIGINS = [
+
+CORS_ALLOWED_ORIGINS = [
     "https://freelance-frontend-production.up.railway.app",
     "https://uzinex-freelance.com",
 ]
-   CSRF_TRUSTED_ORIGINS = [
+
+CSRF_TRUSTED_ORIGINS = [
     "https://freelance-backend-production.up.railway.app",
     "https://freelance-frontend-production.up.railway.app",
     "https://uzinex-freelance.com",
 ]
-)
-env.read_env(BASE_DIR / '.env')
 
 SECRET_KEY = env('SECRET_KEY', default='change-me')
 DEBUG = env('DEBUG')
