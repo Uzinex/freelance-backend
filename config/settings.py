@@ -18,7 +18,8 @@ env = environ.Env(
     "https://freelance-frontend-production.up.railway.app",
     "https://uzinex-freelance.com",
 ]
-    CSRF_TRUSTED_ORIGINS = [
+   CSRF_TRUSTED_ORIGINS = [
+    "https://freelance-backend-production.up.railway.app",
     "https://freelance-frontend-production.up.railway.app",
     "https://uzinex-freelance.com",
 ]
