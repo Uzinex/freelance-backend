@@ -1,7 +1,23 @@
-from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 from django.utils import timezone
 from datetime import timedelta
+
+
+class CustomUserManager(BaseUserManager):
+    def create_user(self, username, password=None, email=None, phone=None, role="freelancer", **extra_fields):
+        if not username:
+            raise ValueError("The Username field is required")
+        email = self.normalize_email(email)
+        user = self.model(username=username, email=email, phone=phone, role=role, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, password=None, email=None, phone=None, role="admin", **extra_fields):
+        extra_fields.setdefault("is_staff", True)
+        extra_fields.setdefault("is_superuser", True)
+        return self.create_user(username, password, email, phone, role, **extra_fields)
 
 
 class CustomUser(AbstractUser):
@@ -17,6 +33,8 @@ class CustomUser(AbstractUser):
         max_length=20,
     )
     created_at = models.DateTimeField(auto_now_add=True)
+
+    objects = CustomUserManager()  # 👈 Подключаем кастомный менеджер
 
     def __str__(self):
         return self.username or self.email or self.phone or ''
