@@ -10,6 +10,10 @@ env = environ.Env(
 )
 env.read_env(BASE_DIR / '.env')
 
+SECRET_KEY = env('SECRET_KEY', default='change-me')
+DEBUG = env('DEBUG')
+
+# --- Hosts ---
 ALLOWED_HOSTS = [
     "*",
     "freelance-backend-production.up.railway.app",
@@ -18,6 +22,7 @@ ALLOWED_HOSTS = [
     "uzinex-freelance.com",
 ]
 
+# --- CORS / CSRF ---
 CORS_ALLOWED_ORIGINS = [
     "https://freelance-frontend-production.up.railway.app",
     "https://uzinex-freelance.com",
@@ -29,10 +34,7 @@ CSRF_TRUSTED_ORIGINS = [
     "https://uzinex-freelance.com",
 ]
 
-SECRET_KEY = env('SECRET_KEY', default='change-me')
-DEBUG = env('DEBUG')
-ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['*'])
-
+# --- Installed apps ---
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -40,11 +42,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    # Third-party
     'rest_framework',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'strawberry.django',
     'channels',
+
+    # Local apps
     'accounts',
     'projects',
     'bids',
@@ -54,6 +60,7 @@ INSTALLED_APPS = [
     'notifications',
 ]
 
+# --- Middleware ---
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
@@ -86,10 +93,12 @@ TEMPLATES = [
 WSGI_APPLICATION = 'config.wsgi.application'
 ASGI_APPLICATION = 'config.asgi.application'
 
+# --- Database ---
 DATABASES = {
     'default': env.db('DATABASE_URL', default='sqlite:///db.sqlite3')
 }
 
+# --- DRF / JWT ---
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
@@ -101,6 +110,7 @@ SIMPLE_JWT = {
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
 }
 
+# --- Channels / Redis ---
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
@@ -113,29 +123,33 @@ CHANNEL_LAYERS = {
 CELERY_BROKER_URL = env('REDIS_URL', default='redis://localhost:6379/0')
 CELERY_RESULT_BACKEND = env('REDIS_URL', default='redis://localhost:6379/0')
 
-CORS_ALLOWED_ORIGINS = env.list('CORS_ALLOWED_ORIGINS', default=[])
-CSRF_TRUSTED_ORIGINS = env.list('CSRF_TRUSTED_ORIGINS', default=[])
-
+# --- Localization ---
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+# --- Static / Media ---
 STATIC_URL = "/static/"
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
+# --- Security ---
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# --- Custom User model ---
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+# --- Email ---
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
+# --- Payment secrets ---
 CLICK_SECRET_KEY = env('CLICK_SECRET_KEY', default='')
 PAYME_SECRET_KEY = env('PAYME_SECRET_KEY', default='')
 STRIPE_SECRET_KEY = env('STRIPE_SECRET_KEY', default='')
